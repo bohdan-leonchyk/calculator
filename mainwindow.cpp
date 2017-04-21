@@ -3,6 +3,8 @@
 #include <cmath>
 
 #define LETTER 55
+#define BINARY 2
+#define HEXADECIMAL 16
 
 double firstNum;
 bool isTypingSecondNumber = false;
@@ -254,11 +256,11 @@ void LeonchykCalculator::numeral_system_pressed()
 
     if (button->text() == "2x")
     {
-        result = toBase(labelNumber, 2);
+        result = toBase(labelNumber, BINARY);
     }
     else if (button->text() == "16x")
     {
-        result = toBase(labelNumber, 16);
+        result = toBase(labelNumber, HEXADECIMAL);
     }
 
     newLabel = QString::fromStdString(result);
