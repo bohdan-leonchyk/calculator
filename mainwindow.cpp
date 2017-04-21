@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include <cmath>
 
+#define LETTER 55
+
 double firstNum;
 bool isTypingSecondNumber = false;
 
@@ -206,29 +208,59 @@ void LeonchykCalculator::trigonometric_operation_pressed()
     ui->label->setText(newLabel);
 }
 
+std::string toBase(int value, int base)
+{
+    std::string newValue;
+    int level, last;
+
+    level = 1;
+
+    if (value < 0)
+    {
+        newValue += "-";
+        value *= -1;
+    }
+
+    for (int reminder = value; reminder >= base; reminder /= base)
+    {
+        level *= base;
+    }
+
+    for (int times = 0; level >= base; level /= base)
+    {
+        times = value / level;
+        value -= times * level;
+
+        if ( times > 9 ) newValue += times+LETTER;
+        else newValue += std::to_string(times);
+    }
+
+    last = value / level;
+
+    if ( last > 9 ) newValue += last+LETTER;
+    else newValue += std::to_string(last);
+
+    return newValue;
+}
+
 void LeonchykCalculator::numeral_system_pressed()
 {
     QPushButton * button = (QPushButton*) sender();
     QString newLabel;
     double labelNumber;
+    std::string result;
 
     labelNumber = ui->label->text().toInt();
 
     if (button->text() == "2x")
     {
-
+        result = toBase(labelNumber, 2);
     }
     else if (button->text() == "16x")
     {
-
+        result = toBase(labelNumber, 16);
     }
 
-    newLabel = QString::number(labelNumber,'g',15);
+    newLabel = QString::fromStdString(result);
     ui->label->setText(newLabel);
-}
-
-int toBase(int value)
-{
-    std:string newValue;
-
 }
